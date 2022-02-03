@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Rubric | Devmountain Foundations</title>
+
+      <link
+        href="../_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="../_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+
+      <script src="../_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Rubric</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Rubric</a><ul>
+<li><a class="reference internal" href="#goals">Goals</a></li>
+<li><a class="reference internal" href="#gotchas">Gotchas</a></li>
+<li><a class="reference internal" href="#code-reviews">Code Reviews</a></li>
+<li><a class="reference internal" href="#code-review-1">Code Review 1</a></li>
+<li><a class="reference internal" href="#further-study-1">Further Study #1</a></li>
+<li><a class="reference internal" href="#further-study-2">Further Study #2</a></li>
+<li><a class="reference internal" href="#further-study-3">Further Study #3</a></li>
+<li><a class="reference internal" href="#further-study-4">Further Study #4</a></li>
+<li><a class="reference internal" href="#further-study-5">Further Study #5</a></li>
+<li><a class="reference internal" href="#further-study-6">Further Study #6</a></li>
+<li><a class="reference internal" href="#further-study-7">Further Study #7</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="rubric">
+<h1>Rubric</h1>
+<dl class="field-list simple">
+<dt class="field-odd">topics</dt>
+<dd class="field-odd"><p>Python functions, return values, string parsing, conditionals, importing modules</p>
+</dd>
+<dt class="field-even">further study concepts</dt>
+<dd class="field-even"><p>N/A</p>
+</dd>
+<dt class="field-odd">requires</dt>
+<dd class="field-odd"><p>Calculator 1 solution, basic command line</p>
+</dd>
+<dt class="field-even">time</dt>
+<dd class="field-even"><p>1-2 hours</p>
+</dd>
+<dt class="field-odd">authors</dt>
+<dd class="field-odd"><p>Christian Fernandez (updates by Joel Burton)</p>
+</dd>
+</dl>
+<section class="section" id="goals">
+<h2>Goals</h2>
+<p>Students will draw on their solution to the previous calculator exercise and
+extend the functionality to be more calculator-like. They will learn to use
+functions imported from other files, check and/or adapt user input, utilize
+for-loops and conditionals.</p>
+<dl class="simple">
+<dt>TODO:</dt><dd><p>Possibly move github introduction here, to be more inline with lecture schedule
+Needs to be more substantial for two lab sessions. Could we give users the
+option to use traditional or prefix syntax? They could use one function to manage that and then two functions to manage input. ??</p>
+</dd>
+</dl>
+</section>
+<section class="section" id="gotchas">
+<h2>Gotchas</h2>
+<ol class="arabic simple">
+<li><p>Handle the case where a user enters only one number</p></li>
+<li><p>Handle the case where inputs are not numbers</p></li>
+<li><p>Dividing with floats</p></li>
+<li><p>Typing something besides an operator as the first character</p></li>
+<li><p>Handles more than one space between operators or numbers</p></li>
+</ol>
+<ul class="simple">
+<li><p>If the student’s file isn’t running the changes they have made, make sure they’re editing the correct version (it can get confusing because they have the HB version and their version from calc-1)</p></li>
+</ul>
+</section>
+<section class="section" id="code-reviews">
+<h2>Code Reviews</h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt>A large part of this assignment is handling bad user input. Things to check for:</dt><dd><ul>
+<li><p>The program deals with only one num input or inputs are not numbers.</p></li>
+<li><p>The program handles an invalid operator.</p></li>
+<li><p>The program can handle more than one space.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>A common question is how to deal with multiple numerical inputs for operators like “pow”. Have them make a decision if they want to just evaluate the first number or print all of the powers of the input.</p></li>
+</ul>
+</section>
+<section class="section" id="code-review-1">
+<h2>Code Review 1</h2>
+<ul class="simple">
+<li><p>Review the idea of importing methods from another file</p></li>
+<li><p>Students evaluate all functions in <em>arithmetic.py</em>.</p></li>
+<li><p>Make sure the students know how <code class="docutils literal notranslate"><span class="pre">break</span></code> and <code class="docutils literal notranslate"><span class="pre">continue</span></code> work.</p></li>
+<li><p>Any checks for input sanitation should be before the calculations.</p></li>
+<li><p>Check that the program divides with floats, so no floor division</p></li>
+<li><p>Make sure the students know the control flow of this program; look at the if-elif-else statements</p></li>
+</ul>
+</section>
+<section class="section" id="further-study-1">
+<h2>Further Study #1</h2>
+<ul class="simple">
+<li><p>Students are asked to make a new arithmetic.py with functions that take in a <em>list</em> of number values. We’re trying to steer them away from using <cite>*args</cite>.</p></li>
+</ul>
+</section>
+<section class="section" id="further-study-2">
+<h2>Further Study #2</h2>
+<ul class="simple">
+<li><p>Students try to break the calculator by typing in different types of bad inputs and then fixing them so that the calculator doesn’t break but instead handles the errors. The goal is to get the calculator to not error out when there’s bad inputs.</p></li>
+<li><p>Discuss how they were able to break the calculator and what they did to handle it.</p></li>
+<li><dl class="simple">
+<dt>Potential edge cases:</dt><dd><ul>
+<li><p>What happens when you type in a word instead of a number</p></li>
+<li><p>Typing a command incorrectly (the inputs are out of order)</p></li>
+<li><p>Typing in too few or too many numbers for a command.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section class="section" id="further-study-3">
+<h2>Further Study #3</h2>
+<ul class="simple">
+<li><p>Using reduce() in calculator.py to take in any number of inputs. Students should have already updated arithmetic.py to process a list of number inputs.</p></li>
+<li><p>Chat about the documentation, how they worked through it and understood what reduce() does. Ask for a few examples in the terminal/walk through their code.</p></li>
+<li><p>You might also talk about map() and filter(), which do similar things as reduce(). Note that map() and filter() now return iterators that need to be wrapped in list() to get a list.</p></li>
+</ul>
+</section>
+<section class="section" id="further-study-4">
+<h2>Further Study #4</h2>
+<ul class="simple">
+<li><p>Students should create their own reduce() function (called my_reduce()) that replicates the functionality of the built-in reduce().</p></li>
+</ul>
+</section>
+<section class="section" id="further-study-5">
+<h2>Further Study #5</h2>
+<ul class="simple">
+<li><p>Customize the number of decimal places the calculator should show. This is open to interpretation – do users pass in a number of decimals and there’s a default if nothing is passed in? Or should they set every number to only display a certain number of decimal points?</p></li>
+</ul>
+</section>
+<section class="section" id="further-study-6">
+<h2>Further Study #6</h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Have calculator.py read from a file of operations.</dt><dd><ul>
+<li><p>Print the results when the file is run.</p></li>
+<li><p>Write the results to a new file.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section class="section" id="further-study-7">
+<h2>Further Study #7</h2>
+<ul class="simple">
+<li><p>General discussion about how code could be improved. Is it readable, clean, DRY? Good variable names? Docstrings?</p></li>
+</ul>
+</section>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2021 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="../_static/main.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+  </body>
+</html>

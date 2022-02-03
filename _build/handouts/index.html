@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Calculator, Part 2: The REPL | Devmountain Foundations</title>
+
+      <link
+        href="_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+
+      <script src="_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Calculator, Part 2: The REPL</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Calculator, Part 2: The REPL</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#id1">Introduction</a><ul>
+<li><a class="reference internal" href="#tokenization">Tokenization</a></li>
+<li><a class="reference internal" href="#tokenization-in-calculator-py">Tokenization in <cite>calculator.py</cite></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-the-calculator-repl">Building the Calculator REPL</a><ul>
+<li><a class="reference internal" href="#arithmetic-api"><cite>arithmetic</cite> API</a></li>
+<li><a class="reference internal" href="#finish-calculator-py">Finish <cite>calculator.py</cite></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#finished">Finished?</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="calculator-part-2-the-repl">
+<h1>Calculator, Part 2: The REPL</h1>
+<section class="section" id="introduction">
+<h2>Introduction</h2>
+<p>In <cite>Calculator, Part 1: The Arithmetic</cite>, we asked you to create a prefix
+calculator application. We gave you <cite>calculator.py</cite> — which was responsible
+for running the application’s user interface — and you impemented functions in
+<cite>arithmetic.py</cite> — which was responsible for executing mathematical operations
+behind-the-scenes.</p>
+<p>This time, you’ll do the opposite. We’ll give you the backend (<cite>arithmetic.py</cite>)
+and you’ll write the frontend (<cite>calculator.py</cite>).</p>
+</section>
+<section class="section" id="setup">
+<h2>Setup</h2>
+<p>Download the materials for this exercise from Frodo.</p>
+<p>Remember to initialize your Git repo once you’ve downloaded the materials.</p>
+</section>
+<section class="section" id="id1">
+<h2>Introduction</h2>
+<p>A <cite>REPL</cite>, or read-evaluate-print-loop, is a loop designed to continuously read
+input from the keyboard, evaluate it, and print its results to the screen. This
+should sound familar since you’ve worked with several REPLs already — the
+Python shell, the game from <cite>Guessing Game</cite>, and the app from <cite>Calculator,
+Part 1</cite> are all powered by REPLs. REPLs are often implemented with while loops
+like this one:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">exit_condition_not_reached</span><span class="p">:</span>
+    <span class="nb">input</span> <span class="o">=</span> <span class="n">consume_input</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">evaluate_input</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this exercise, you will re-implement the REPL in <cite>calculator.py</cite> from scratch.
+To do this, you will need to <cite>tokenize</cite> a string.</p>
+<section class="section" id="tokenization">
+<h3>Tokenization</h3>
+<p>Tokenizing a string is the
+process of taking a string and breaking it up into its constituent parts as a
+list. Consider the following string:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ocean_animals</span> <span class="o">=</span> <span class="s1">&#39;shark,squid,tuna,flounder&#39;</span>
+</pre></div>
+</div>
+<p>If we were to tokenize the string above, using a comma (<code class="docutils literal notranslate"><span class="pre">,</span></code>) as our delimiter,
+we’d get a list of tokens like so:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;shark&#39;</span><span class="p">,</span> <span class="s1">&#39;squid&#39;</span><span class="p">,</span> <span class="s1">&#39;tuna&#39;</span><span class="p">,</span> <span class="s1">&#39;flounder&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>To create this list, you can use a string method called <cite>split</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ocean_animals</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>  <span class="c1"># =&gt; [&#39;shark&#39;, &#39;squid&#39;, &#39;tuna&#39;, &#39;flounder&#39;]</span>
+</pre></div>
+</div>
+</section>
+<section class="section" id="tokenization-in-calculator-py">
+<h3>Tokenization in <cite>calculator.py</cite></h3>
+<p>Now consider the following string as read from the keyboard:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">input_string</span> <span class="o">=</span> <span class="s1">&#39;pow 3 5&#39;</span>
+</pre></div>
+</div>
+<p>If we tokenize on spaces, we get the following list:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tokens</span> <span class="o">=</span> <span class="n">input_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>   <span class="c1"># =&gt; [&#39;pow&#39;, &#39;3&#39;, &#39;5&#39;]</span>
+</pre></div>
+</div>
+<p>Now, how should we evaluate our list of tokens (<code class="docutils literal notranslate"><span class="pre">['pow',</span> <span class="pre">'3',</span> <span class="pre">'5']</span></code>)? Take
+some time to think about this and jot down some preliminary pseudocode before
+you continue to the next paragraph.</p>
+<p>The first token — <code class="docutils literal notranslate"><span class="pre">'pow'</span></code> — lets us know what we ought to do with the
+remaining tokens. For example, in pseudocode:</p>
+<pre class="literal-block">if the first token is 'pow':
+    call the <cite>power</cite> function with the other two tokens</pre>
+<p>We can incoporate the pseudocode above into the pseudocode for the entire REPL:</p>
+<pre class="literal-block"><em>repeat forever</em>:
+    read input
+    tokenize input
+        if the first token is <code class="docutils literal notranslate"><span class="pre">&quot;q&quot;</span></code>:
+            quit
+        else:
+            (decide which math function to call based on first token)
+            if the first token is 'pow':
+                  call the <cite>power</cite> function with the other two tokens
+
+            (...etc.)</pre>
+</section>
+</section>
+<section class="section" id="building-the-calculator-repl">
+<h2>Building the Calculator REPL</h2>
+<p>This time, we’ve provided you with <cite>arithmetic.py</cite>, which contains the
+underlying math functions but feel free to use your own <cite>arithmetic.py</cite> from
+<cite>Calculator, Part 1</cite>.</p>
+<section class="section" id="arithmetic-api">
+<h3><cite>arithmetic</cite> API</h3>
+<p>Either way, you’ll require the following functions from <cite>arithmetic.py</cite>:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
+<dd><p>Return the sum of the two inputs</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="subtract">
+<span class="sig-name descname"><span class="pre">subtract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
+<dd><p>Return the second number subtracted from the first.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="multiply">
+<span class="sig-name descname"><span class="pre">multiply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
+<dd><p>Multiply the two inputs together and return the result.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="divide">
+<span class="sig-name descname"><span class="pre">divide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
+<dd><p>Divide the first input by the second and return the result.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="square">
+<span class="sig-name descname"><span class="pre">square</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
+<dd><p>Return the square of the input.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cube">
+<span class="sig-name descname"><span class="pre">cube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
+<dd><p>Return the cube of the input.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="power">
+<span class="sig-name descname"><span class="pre">power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
+<dd><p>Raise the first input to the power of the second and return the result.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mod">
+<span class="sig-name descname"><span class="pre">mod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
+<dd><p>Divide the first input by the second input and return the remainder.</p>
+</dd></dl>
+
+</section>
+<section class="section" id="finish-calculator-py">
+<h3>Finish <cite>calculator.py</cite></h3>
+<p>Your task is to finish <cite>calculator.py</cite> by creating a REPL that will serve as
+the user interface for a prefix-notation calculator app.</p>
+<p>A sample session of a finished calculator looks like this:</p>
+<pre class="console literal-block">$ <span class="cmd">python3</span> <span class="cmd">calculator.py</span>
+&gt; <span class="cmd">+ 1 2</span>
+3.0
+&gt; <span class="cmd">- 10 5</span>
+5.0
+&gt; <span class="cmd">* 2 3</span>
+6.0
+&gt; <span class="cmd">/ 7 2</span>
+3.5
+&gt; <span class="cmd">square 2</span>
+4.0
+&gt; <span class="cmd">cube 3</span>
+27.0
+&gt; <span class="cmd">pow 2 5</span>
+32.0
+&gt; <span class="cmd">mod 10 3</span>
+1.0
+&gt; <span class="cmd">q</span></pre>
+<p>(Notice the use of <code class="docutils literal notranslate"><span class="pre">q</span></code> to exit the REPL. You need to implement this behavior
+as well as the addition, subtraction, etc.)</p>
+<p>Remember to commit your work as you go. Also, take note of any bugs you
+encounter and how you solved them — you’ll discuss any bugs during the
+post-lab discussion session.</p>
+</section>
+</section>
+<section class="section" id="finished">
+<h2>Finished?</h2>
+<p><strong>Congratulations on completing Calculator 2!</strong></p>
+<p>If you have time, move on to the <a class="reference external" href="further-study">Further Study</a>.</p>
+</section>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2021 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="_static/main.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+  </body>
+</html>

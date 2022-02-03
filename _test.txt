@@ -1,0 +1,37 @@
+Since this is interactive, let's have a fake input handler:
+
+    >>> import sys
+    >>> def fake_input(prompt):
+    ...     sys.stdout.write(prompt)
+    ...     v = _inputs.pop(0)
+    ...     print(v)
+    ...     return v
+
+    >>> try:
+    ...     import __builtin__ as b    # Python 2
+    ... except ImportError:
+    ...     import builtins as b       # Python 3
+
+    >>> b.raw_input = b.input = fake_input
+
+Test calculator and arithmetic:
+
+    >>> _inputs = ["+ 1 2", "- 4 2", "* 2 3", "/ 1 2", "square 5", "cube 2", "pow 2 3", "mod 5 2", "q"]
+    >>> from arithmetic import *
+    >>> add(1, 2)
+    3
+    >>> subtract(4, 2)
+    2
+    >>> multiply(2, 3)
+    6
+    >>> divide(1, 2)
+    0.5
+    >>> square(5)
+    25
+    >>> cube(2)
+    8
+    >>> power(2, 3)
+    8
+    >>> mod(5, 2)
+    1
+

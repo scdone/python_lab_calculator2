@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Solution | Devmountain Foundations</title>
+
+      <link
+        href="../_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="../_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+
+      <script src="../_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Solution</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Solution</a><ul>
+<li><a class="reference internal" href="#further-study">Further Study</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="solution">
+<h1>Solution</h1>
+<p>Here is an implementation of the basic calculator program:</p>
+<div class="literal-block-wrapper docutils container" id="calc2-sol">
+<div class="code-block-caption"><span class="caption-text">calculator.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;CLI application for a prefix-notation calculator.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">arithmetic</span> <span class="kn">import</span> <span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">subtract</span><span class="p">,</span> <span class="n">multiply</span><span class="p">,</span> <span class="n">divide</span><span class="p">,</span> <span class="n">square</span><span class="p">,</span> <span class="n">cube</span><span class="p">,</span>
+                        <span class="n">power</span><span class="p">,</span> <span class="n">mod</span><span class="p">,</span> <span class="n">add_mult</span><span class="p">,</span> <span class="n">add_cubes</span><span class="p">,</span> <span class="p">)</span>
+
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">user_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Enter your equation &gt; &#39;</span><span class="p">)</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">user_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;q&#39;</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;You will exit.&#39;</span><span class="p">)</span>
+        <span class="k">break</span>
+
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Not enough inputs.&#39;</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+    <span class="n">operator</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">num1</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">num2</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">num2</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">num3</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="c1"># A place to store the return value of the math function we call,</span>
+    <span class="c1"># to give us one clear place where that result is printed.</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">num1</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">num2</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Those aren</span><span class="se">\&#39;</span><span class="s1">t numbers!&#39;</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+    <span class="c1"># We have to cast each value we pass to an arithmetic function from a</span>
+    <span class="c1"># a string into a numeric type. If we use float across the board, all</span>
+    <span class="c1"># results will have decimal points, so let&#39;s do that for consistency.</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subtract</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">multiply</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">divide</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;square&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">square</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;cube&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">cube</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;pow&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">power</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;mod&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;x+&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">add_mult</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num3</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s1">&#39;cubes+&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">add_cubes</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39;Please enter an operator followed by two integers.&#39;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section class="section" id="further-study">
+<h2>Further Study</h2>
+<p>This implementation of the calculator includes the following features:</p>
+<ul class="simple">
+<li><p>Ensures the user’s input is valid before using it</p></li>
+<li><p>Reads calculation input from a file</p></li>
+<li><p>Writes the results out to another file</p></li>
+</ul>
+<p>Here’s the code:</p>
+<div class="literal-block-wrapper docutils container" id="calc2-sol-fs">
+<div class="code-block-caption"><span class="caption-text">further-study/calculator.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;A prefix-notation calculator.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">arithmetic</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">input_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;operations.txt&quot;</span><span class="p">)</span>
+<span class="n">output_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;results.txt&quot;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">input_file</span><span class="p">:</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Not enough inputs.&quot;</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+    <span class="n">operator</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">num1</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">num2</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">num2</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="c1"># A place to store the return value of the math function we call,</span>
+    <span class="c1"># to give us one clear place where that result is printed.</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">num1</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">num2</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Those aren&#39;t numbers!&quot;</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s2">&quot;+&quot;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s2">&quot;-&quot;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subtract</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s2">&quot;*&quot;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">multiply</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">divide</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s2">&quot;square&quot;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">square</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s2">&quot;cube&quot;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">cube</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s2">&quot;pow&quot;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">power</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">operator</span> <span class="o">==</span> <span class="s2">&quot;mod&quot;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">num2</span><span class="p">))</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Not all commands are in the correct format.&quot;</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+    <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">output_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2021 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="../_static/main.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+  </body>
+</html>
